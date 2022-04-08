@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.travel.pro.iTravel">
+<!-- 게시물목록(페이징) -->
+<sql id="criteria">
+    <trim prefix="where (" suffix=")" prefixOverrides="OR">
+        <foreach collection="typeArr" item="type">
+            <trim prefix="OR">
+                <choose>
+                    <when test="type == 'T'.toString()">
+                        title like concat('%',#{keyword},'%') 
+                    </when>
+                    <when test="type == 'C'.toString()">
+                        content like concat('%',#{keyword},'%') 
+                    </when>
+                    <when test="type == 'W'.toString()">
+                        writer like concat('%',#{keyword},'%' )
+                    </when>
+                </choose>
+            </trim>
+        </foreach>
+    </trim>    
+</sql>
+<!-- 게시물목록(페이징) -->
+<select id="n_List" parameterType="com.travel.pro.N_Criteria" resultType="com.travel.pro.NoticeDTO">
+       select bno,writer,title,content,created from test.notice 
+       <if test="keyword!=null">
+             <include refid="criteria"></include>
+        </if>
+        order by bno desc
+       limit #{skip},#{amount}
+</select>
+<!-- 특정 게시물 정보 -->
+<select id="n_content" resultType="com.travel.pro.NoticeDTO">
+   select bno,title,content,writer,created,updated from test.notice where bno=#{bno} 
+</select>
+<!-- 게시물 총 개수 -->
+<select id="n_getTotal" resultType="int">
+   select count(bno) from test.notice
+   <if test="keyword != null">
+       <include refid="criteria"></include>
+    </if>
+</select>
+<!-- 게시물 추가,수정,삭제 -->
+<insert id="n_Write">
+   insert into test.notice(title,content,writer,created)
+   values(#{param1},#{param2},#{param3},date_format(now(),'%Y-%m-%d'))
+</insert>
+<update id="n_Update">
+   update test.notice set title=#{param1},content=#{param2},updated=date_format(now(),'%Y-%m-%d')
+   where bno=#{param3}
+</update>
+<delete id="n_delete">
+   delete from test.notice where bno=#{bno}
+</delete>
+
+
+<!-- 댓글 리스트 -->
+<select id="r_list" resultType="com.travel.pro.Reply">
+   select rno,grp,grpl,writer,content,created,updated
+   from test.n_reply where bno=#{bno} order by grp asc, grps asc
+</select>
+<!-- 댓글 수 -->
+<select id="r_count" resultType="int">
+   select count(rno) from test.n_reply where bno=#{bno}
+</select>
+<!-- 모댓글 작성 -->
+<insert id="rm_Write">
+   insert into test.n_reply(bno,grps,grpl,writer,content,created)
+    values(#{param1},1,0,#{param2},#{param3},date_format(now(),'%Y-%m-%d'))
+</insert>
+<select id="rno_num" resultType="int">
+   select max(rno) from test.n_reply
+</select>
+<update id="rm_Update">
+   update test.n_reply set grp=#{rno} where rno=#{rno}
+</update>
+<!-- grps 최대값+1 (자식댓글에 들어감) -->
+<select id="max_grps" resultType="int">
+   select max(grps)+1 from test.n_reply where grp=#{param1}
+</select>
+<!-- 자식댓글 작성 -->
+<insert id="rc_Write">
+   insert into test.n_reply(bno,grp,grps,grpl,writer,content,created)
+   values(#{param1},#{param2},#{param3},1,#{param4},#{param5},date_format(now(),'%Y-%m-%d'))
+</insert>
+<!-- 댓글 수정 -->
+<update id="r_Update">
+   update test.n_reply set content=#{param1},updated=date_format(now(),'%Y-%m-%d')
+   where rno=#{param2}
+</update>
+<update id="r_DelUp">
+   update test.n_reply set content=#{param1} where rno=#{param2}
+</update>
+<!-- 댓글 삭제 -->
+<delete id="r_Delete">
+   delete from test.n_reply where rno=#{rno}
+</delete>
+<!-- 해당 댓글 그룹번호 찾기 -->
+<select id="rno_grp" resultType="int">
+   select grp from test.n_reply where rno=#{rno}
+</select>
+
+<!-- 이 이후부터 다른 팀원 담당 -->
+<insert id="insertJjim">
+<!-- insert into test.jjim (id,loc) select id,loc from test.bando where id=${param1} and loc="${param2}" -->
+insert into test.jjim (userid,id,loc) values (#{param1},#{param2},#{param3})
+</insert>
+<select id="inJjim" resultType="com.travel.pro.jjim">
+select id,loc from test.jjim where userid=#{param1}
+</select>
+<select id="selJjim" resultType="com.travel.pro.tra">
+select jjim.id,bando.adr, bando.cod,bando.name,jjim.loc 
+from test.bando as bando join test.jjim as jjim 
+on bando.id=jjim.id and bando.loc=jjim.loc where userid=#{param1}
+</select>
+<select id="selinfo1" resultType="com.travel.pro.tra">
+   select loc,id,name,cod,adr from test.bando where loc=#{st}
+   limit #{skip},#{amount}
+   </select>
+   <select id="stay" resultType="com.travel.pro.tra">
+  select loc,id,name,cod,adr from test.stay where loc=#{st}
+   limit #{skip},#{amount}
+   </select>
+   <select id="t_getTotal1" resultType="int">
+      select count(id) from
+      test.stay where loc=#{st}
+   </select>
+<delete id="selDelete">
+delete from test.jjim where id=#{param1} and loc="${param2}"
+</delete>
+
+
+<insert id="insertJjim1">
+<!-- insert into test.jjim (id,loc) select id,loc from test.bando where id=${param1} and loc="${param2}" -->
+insert into test.jjim1 (userid,id,loc) values (#{param1},#{param2},#{param3})
+</insert>
+<select id="inJjim1" resultType="com.travel.pro.jjim">
+select id,loc from test.jjim1 where userid=#{param1}
+</select>
+<select id="selJjim1" resultType="com.travel.pro.tra">
+select jjim1.id,stay.adr, stay.cod,stay.name,jjim1.loc 
+from test.stay as stay join test.jjim1 as jjim1
+on stay.id=jjim1.id and stay.loc=jjim1.loc where userid=#{param1}
+</select>
+<delete id="selDelete1">
+delete from test.jjim1 where id=#{param1} and loc="${param2}"
+</delete>
+<select id="getcity" resultType="com.travel.pro.city">
+   select id,name,kloc from test.city
+</select>
+
+<!--지역주소  -->
+<select id="getcod" resultType="com.travel.pro.bando">
+   select name,adr,cod from test.bando where loc='${value}';
+</select>
+
+<select id="getban" resultType="com.travel.pro.bando">
+   select adr from test.bando
+</select>
+<select id="topadr" resultType="com.travel.pro.bando">
+   select * from test.bando order by hit desc limit 3;
+</select>
+
+<!-- 여행정보 -->
+
+<select id="t_getTotal" resultType="int">
+   select count(id) from
+   test.bando where loc=#{st}
+</select>
+
+<!-- 회원가입/로그인/로그아웃/회원탈퇴/아이디비번찾기 -->
+<select id="selinfo" resultType="com.travel.pro.tra">
+select id,adr,cod,name,loc from test.bando where loc="${value}" 
+</select>
+
+<select id="usercheck" parameterType="String" resultType="com.travel.pro.Member_dto">
+   select userid,password from Member where userid=#{userid}
+</select>
+
+<select id="idcheck" resultType="int">
+   select count(*) cnt from Member where userid=#{userid}
+</select>
+
+<select id="find_id" resultType="String">
+   select userid from Member where username=#{username} and phone=#{phone}
+</select>
+
+<select id="find_pw" resultType="String">
+   select password from Member where username=#{username} and phone=#{phone} and userid=#{userid}
+</select>
+
+<insert id="insertMember">
+   insert into Member(userid,password,username,birthday,phone)
+    values(#{userid},#{password},#{username},#{birthday},#{phone})
+</insert>
+<select id="getmap" resultType="com.travel.pro.tra">
+   select adr,cod,id,name from test.ulsan
+</select>
+
+
+</mapper>

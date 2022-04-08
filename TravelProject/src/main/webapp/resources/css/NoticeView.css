@@ -1,0 +1,231 @@
+@charset "UTF-8";
+#N_Body{
+	/* 내용부분 전체 */
+	width:100% !important; 
+	margin-top:50px;
+	margin-bottom:50px;
+}
+#title_tbl,#div_reply{
+	/* 안에 테이블이 있는 div */
+	width:1000px !important;
+}
+#tb_title,#reply{
+	/* 게시판 내용, 댓글 테이블 */
+	border-collapse:collapse;
+	width:1000px !important;
+}
+td{
+	border:1px solid #9d9d9d !important;
+}
+.title{
+	/* 게시판 제목 */
+	width:60%;
+	border-right: none !important;
+	text-indent:10pt;
+	font-weight: bold;
+	font-size:13pt;
+	padding: 10px 10px 10px 15px;
+	background-color:#d3d3d4;
+}
+.write{
+	/* 게시판 작성자 */
+	width:10%;
+	border-left: none !important;
+	border-right: none !important;
+	text-align:center;
+	font-size:10pt;
+	vertical-align:bottom;
+	padding: 0 10px 10px 0;
+	background-color:#d3d3d4;
+}
+.date{
+	/* 게시판 날짜 */
+	width:20%;
+	height:60px;
+	border-left: none !important;
+	text-align:right !important;
+	font-size:10pt;
+	vertical-align:bottom !important;
+	padding: 0 10px 10px 0;
+	background-color:#d3d3d4;
+}
+.content{
+	/* 게시판 내용 */
+	width:100%;
+	vertical-align:top;
+	padding: 30px 10px 30px 15px;
+}
+#bt_list{
+	/* 리스트 버튼있는 테이블 */
+	height:30px;
+	padding: 10px 0 10px 0;
+	border:none !important;
+}
+#bt_up{
+	/* 수정,삭제버튼 있는 테이블 */
+	height:30px;
+	text-align:right;
+	padding: 10px 0 10px 0;
+	border:none !important;
+}
+
+/* 리스트이동,수정,삭제버튼 */
+/* #btnUpdate{
+	width:70px;
+	height:40px;
+	margin-right:10px;
+	border: 1px solid #051e3e;
+	background-color:#051e3e;
+	font-weight: bold;
+	font-size:11pt;
+	color:#ffffff;
+} */
+/* #golist,#btnDelete{
+	width:70px;
+	height:40px;
+	border: 1px solid #051e3e;
+	background-color:#051e3e;
+	font-weight: bold;
+	font-size:11pt;
+	color:#ffffff;
+	
+} */
+.list{
+	width:70px;
+}
+
+hr{
+	width:1000px;
+}
+
+/* 댓글 리스트 */
+#writer_p{
+	/* 모댓글 작성자 */
+	width:30px;
+	height:20px;
+	border-right: none !important;
+	border-bottom:none !important;
+	text-indent:10pt;
+	padding: 10px 0 10px 0;
+}
+#data_p{
+	/* 모댓글 날짜 */
+	width:70px;
+	height:20px;
+	border-left: none !important;
+	border-right: none !important;
+	border-bottom:none !important;
+	padding: 10px 0 10px 0;
+}
+#btn_p{	
+	/* 모댓글 버튼 */
+	width:100px;
+	height:20px;
+	border-left: none !important;
+	border-bottom:none !important;
+	padding: 10px 0 10px 0;
+}
+.cn_p{
+	/* 모댓글 내용 */
+	border-top:none !important;
+	padding: 10px 0 10px 20px;
+}
+#writer_c{
+	/* 자식댓글 작성자 */
+	width:30px;
+	height:20px;
+	border-right: none !important;
+	border-bottom:none !important;
+	padding:10px 0 10px 40px;
+}
+#data_c{
+	/* 자식댓글 날짜 */
+	width:70px;
+	height:20px;
+	border-left: none !important;
+	border-right: none !important;
+	border-bottom:none !important;
+	padding: 10px 0 10px 0;
+}
+#btn_c{
+	/* 자식댓글 버튼 */
+	width:100px;
+	height:20px;
+	border-left: none !important;
+	border-bottom:none !important;
+	padding: 10px 0 10px 0;
+}
+.cn_child{
+	/* 자식댓글 내용 */
+	border-top:none !important;
+	padding:10px 0 10px 50px;
+}
+#no_writer{
+	/* 회원아닐경우 모댓글 작성자 */
+	width:170px;
+	height:20px;
+	border-right: none !important;
+	border-bottom:none !important;
+	text-indent:10pt;
+	padding: 10px 0 10px 0;		
+}
+#no_data{
+	/* 회원아닐경우 모댓글 날짜 */
+	width:170px;
+	height:20px;
+	border-left: none !important;
+	border-bottom:none !important;
+	padding: 10px 0 10px 0;	
+}
+#no_cwriter{
+	/* 회원아닐경우 자식댓글 작성자 */
+	width:170px;
+	height:20px;
+	border-right: none !important;
+	border-bottom:none !important;
+	padding:10px 0 10px 40px;	
+}
+#no_cdata{
+	/* 회원아닐경우 자식댓글 날짜 */
+	width:170px;
+	height:20px;
+	border-left: none !important;
+	border-bottom:none !important;
+	padding: 10px 0 10px 0;
+	
+}
+
+/* 댓글작성 */
+#re_insert{
+	/* 댓글 작성 div */
+	width:100%;
+	height:30%;
+	padding:10px 10px 10px 10px;
+}
+#insert_content{
+	/* 내용 작성 */
+	display: inline-block !important;
+	vertical-align:top;
+	border:solid #9d9d9d;
+	padding :0 0 10px 0;
+	margin:0 5px 0 5px !important;
+}
+
+/* 답글달기 버튼 클릭시 */
+#W_reWriter{
+	border-bottom:none !important;
+	padding:10px 10px 10px 10px;
+}
+#W_rContent{
+	padding:10px 7px 10px 10px;
+	border-top:none !important;
+}
+
+/* button 태그 */
+button{
+	border: none;
+	color:#000000;
+	background-color:#ffffff;
+	margin-right:10px !important;
+	font-size:9pt;
+}

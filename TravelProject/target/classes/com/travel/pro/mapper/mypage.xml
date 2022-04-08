@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    <mapper namespace="com.travel.pro.iTravel">
+    	<select id="memberinfo" resultType="com.travel.pro.member">
+    		select userid,password,username,birthday,phone
+    		from test.Member
+    	</select>
+    	<select id="idpw" resultType="com.travel.pro.member">
+    		select userid
+    		from test.Member
+    	</select>
+    	<update id="ChangePW">
+    		UPDATE test.Member
+    		SET password = #{param3}
+    		WHERE userid = #{param1} and password = #{param2}
+    	</update>
+    	<update id="ChangePH">
+    		UPDATE test.Member
+    		SET phone = #{param3}
+    		WHERE userid = #{param1} and phone = #{param2}
+    	</update>
+    	<select id="loadMember" resultType="com.travel.pro.member">
+    		select userid,password,username,birthday,phone
+    		from test.Member
+    		where userid=#{param1}
+    	</select>
+    	<select id="lookMember" resultType="com.travel.pro.member">
+    		select userid,password from test.Member where userid=#{param1}
+    	</select>
+    	<delete id="deleteMember">
+    		delete from test.Member where userid=#{param1}
+    	</delete>
+    </mapper>

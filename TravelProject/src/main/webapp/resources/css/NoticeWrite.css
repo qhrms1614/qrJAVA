@@ -1,0 +1,35 @@
+@charset "UTF-8";
+#N_Body{
+	width:100%;
+}
+#Noticewrite{
+	width:650px;
+	margin:70px 0 70px 320px;
+}
+#div_title{
+	margin-bottom:12px;
+}
+#div_content{
+	margin-bottom:20px;	
+}
+#div_button{
+	display: inline;
+	vertical-align:top;
+	margin-right:496px;
+}
+#div_submit{
+	display: inline;
+	vertical-align:top;
+}
+/* #golist,#complete{
+	width:70px;
+	height:40px;
+	border: 1px solid #051e3e;
+	background-color:#051e3e;
+	font-weight: bold;
+	font-size:11pt;
+	color:#ffffff;
+} */
+.golist,.write{
+	width:70px;
+}
