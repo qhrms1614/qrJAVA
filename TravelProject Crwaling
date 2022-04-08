@@ -1,0 +1,72 @@
+import urllib.request as req
+from bs4 import BeautifulSoup
+import pymysql
+conn = pymysql.connect(host='3.37.251.29',user='ubuntu',password='human123',db='test',charset='utf8')
+cursor=conn.cursor()
+qwe='kangwon'
+qw=str(qwe)
+q=0
+w=int(q)
+url="https://tournmaster.com/seantour_map/travel/destination/list.do?destRegion=%EC%B6%A9%EB%82%A8&destCategory=%EA%B4%80%EA%B4%91%EC%A7%80&searchKeyword=&urlparam=%EA%B4%80%EA%B4%91%EC%A7%80&excelPageno=41&allCnt=327&pageIndex=41"
+res=req.urlopen(url).read().decode('utf-8')
+soup=BeautifulSoup(res,"html.parser")
+sname=soup.select_one('#travelDestination > div.cont_body > div > div.pagination > a.page_nextend')
+sname1=(str(sname).split('='))
+sname2=(str(sname1[3]).split('"'))
+# # print(str(sname2[0]))
+s=int(sname2[0])
+# print(s)
+for x in range(1,s+1):
+    url="https://tournmaster.com/seantour_map/travel/destination/list.do?destRegion=%EA%B0%95%EC%9B%90&destCategory=%EA%B4%80%EA%B4%91%EC%A7%80&searchKeyword=&urlparam=%EA%B4%80%EA%B4%91%EC%A7%80&excelPageno="+str(x)+"&allCnt=427&pageIndex="+str(x)
+    for i in range(1,9):
+        stockname=soup.select_one('#travelDestination > div.cont_body > div > div.local_lst > ul > li:nth-child('+str(i)+') > div.tbox > p.location')
+        stname=soup.select_one('#travelDestination > div.cont_body > div > div.local_lst > ul > li:nth-child('+str(i)+') > div.img > a > img')
+        ss=soup.select_one('#travelDestination > div.cont_body > div > div.local_lst > ul > li:nth-child('+str(i)+') > div.tbox > p.tit > a')
+        res=req.urlopen(url).read().decode('utf-8')
+        soup=BeautifulSoup(res,"html.parser")
+        # print(ss)
+        ss1=str(ss)
+        ss2=ss1.split('>')
+        ss3=ss2[3]
+        ss4=ss3.split('<')
+        ss5=ss4[0]
+        ss6=ss5.replace("\'","")
+        print(ss6)
+        stockname1=str(stockname)
+        stockname2=stockname1.split(">")
+        stockname3=str(stockname2[1])
+        stockname4=stockname3.split("<")
+        stockname5=str(stockname4[0])
+        stname1=str(stname)
+        stname2=stname1.replace("\'","")
+        x=str("https://tournmaster.com/")
+        y=stname2.find("g;j")
+        a=stname2.find("src=")
+        b=x+stname2[a:y]+"g"
+        c=b.split('src="/')
+        d=c[0]+c[1]
+        # print(d)
+        val=d.find('JPG')
+        if val==-1:
+            print(d)
+            dd='<img src="'+d+'" />'
+            sql2=(f"insert into bando(loc,id,name,cod,adr) values('{qw}','{w}','{ss6}','{dd}','{stockname5}')")
+            print(sql2)
+            sql3=str(sql2)
+            cursor.execute(sql2)
+            print('insert OK')
+            conn.commit()
+            w+=1
+        else:
+            e=d.split(';')
+            f=e[0]+''
+            ff='<img src="'+f+'" />'
+            print(f)
+            sql2=(f"insert into bando(loc,id,name,cod,adr) values('{qw}','{w}','{ss6}','{ff}','{stockname5}')")
+            sql3=str(sql2)
+            cursor.execute(sql2)
+            print('insert OK')
+            conn.commit()
+            w+=1
+print("db연동이 완료되었습니다.")
+conn.close()
